@@ -1,0 +1,74 @@
+<!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * -->
+<!-- * * * * * * * * * * * The content below * * * * * * * * * * * -->
+<!-- * * * * * * * * * * is only a placeholder * * * * * * * * * * -->
+<!-- * * * * * * * * * * and can be replaced. * * * * * * * * * * * -->
+<!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * -->
+<!-- * * * * * * * * * Delete the template below * * * * * * * * * * -->
+<!-- * * * * * * * to get started with your project! * * * * * * * * -->
+<!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * -->
+
+
+<header>
+  <h1>{{ title }}</h1>
+</header>
+<div class="container">
+  <div class="sidebar">
+    <h2>Filters</h2>
+
+    <div class="filters">
+      <div *ngIf="categoryFilter || tagFilter" class="filter">
+        <span *ngIf="categoryFilter">Category: {{categoryFilter.name}}</span>
+         <!-- <span *ngIf="tagFilter">Tag: {{tagFilter.name}}</span> -->
+        <a (click)="clearFilters()">Clear</a>
+      </div>
+    </div>
+
+    <h3>Categories</h3>
+    <div class="categories">
+      <span *ngFor="let category of categories" 
+            [class.active]="category === categoryFilter" 
+            (click)="setCategoryFilter(category)">
+        {{category.name}}
+      </span>
+    </div>
+    <h3>Tags</h3>
+    <div class="tags">
+      <span *ngFor="let tag of tags" 
+            [class.active]="tag === tagFilter" 
+            (click)="setTagFilter(tag)">
+        {{tag.name}}
+      </span>
+    </div>
+  </div>
+  <div class="projects-grid" >
+    <div class="project" *ngFor="let project of filterProjects(projects)" [ngClass]="{'hidden': shouldHideProject(project)}" >
+      <h2>{{ project.title }}</h2>
+      <p>{{ project.excerpt }}</p>
+      <ul>
+        <li *ngIf="project.category" (click)="setCategoryFilter(project.category)">Category: {{ project.category.name }}</li>
+        <li *ngIf="project.tags && project.tags.length > 0">Tags:
+          <span *ngFor="let tag of project.tags">
+            {{ tag.name }}{{ tag !== project.tags[project.tags.length - 1] ? ', ' : '' }}
+          </span>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
+<footer>
+  <p>&copy; 2023 Mason Porter. All rights reserved.</p>
+</footer>
+
+
+
+
+
+<!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * -->
+<!-- * * * * * * * * * * * The content above * * * * * * * * * * * -->
+<!-- * * * * * * * * * * is only a placeholder * * * * * * * * * * -->
+<!-- * * * * * * * * * * and can be replaced. * * * * * * * * * * * -->
+<!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * -->
+<!-- * * * * * * * * * * End of Placeholder * * * * * * * * * * * -->
+<!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * -->
+
+
