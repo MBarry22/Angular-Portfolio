@@ -1,0 +1,8 @@
+<div 
+  *ngFor="let tag of tags"
+  [class.active]="tag === tagFilter"
+  (click)="setTagFilter(tag)"
+  class="category-item px-4 py-2 cursor-pointer hover:bg-gray-100"
+>
+  {{ tag.name }}
+</div>

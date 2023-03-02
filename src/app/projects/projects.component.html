@@ -1,0 +1,27 @@
+<div class="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-1 gap-12">
+    <div *ngFor="let project of projects | projectFilter : tagFilter"
+      [class.hidden]="categoryFilter && project.category?.id != categoryFilter.id"
+      class="border border-gray-300 rounded-lg overflow-hidden shadow-md hover:shadow-lg transition-transform duration-200">
+      <div class="p-6">
+        <h2 class="text-xl font-bold mb-2">{{ project.title | uppercase }}</h2>
+        <p class="text-base mb-4">{{ project.excerpt }}</p>
+        <div class="project-details">
+          <div 
+            *ngIf="project.category"
+            (click)="setCategoryFilter(project.category)"
+            class="project-category cursor-pointer text-gray-400 mb-2">
+            Category: <span>{{ project.category.name }}</span>
+          </div>
+          <div *ngIf="project.tags" class="mb-2">
+            <span class="font-bold">Tags:</span>
+            <span *ngFor="let tag of project.tags" 
+              (click)="setTagFilter(tag)" 
+              class="text-blue-500 cursor-pointer ml-2">
+              {{ tag.name }}
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  

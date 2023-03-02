@@ -1,74 +1,59 @@
-<!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * -->
-<!-- * * * * * * * * * * * The content below * * * * * * * * * * * -->
-<!-- * * * * * * * * * * is only a placeholder * * * * * * * * * * -->
-<!-- * * * * * * * * * * and can be replaced. * * * * * * * * * * * -->
-<!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * -->
-<!-- * * * * * * * * * Delete the template below * * * * * * * * * * -->
-<!-- * * * * * * * to get started with your project! * * * * * * * * -->
-<!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * -->
-
-
-<header>
-  <h1>{{ title }}</h1>
-</header>
-<div class="container">
-  <div class="sidebar">
-    <h2>Filters</h2>
-
-    <div class="filters">
-      <div *ngIf="categoryFilter || tagFilter" class="filter">
-        <span *ngIf="categoryFilter">Category: {{categoryFilter.name}}</span>
-         <!-- <span *ngIf="tagFilter">Tag: {{tagFilter.name}}</span> -->
-        <a (click)="clearFilters()">Clear</a>
+<div class="flex flex-col min-h-screen">
+  <header class="bg-gray-900 text-white py-4 px-6 text-center">
+    <h1 class="text-2xl">{{ title }}</h1>
+  </header>
+  <main class="flex-1 flex">
+    <section id="filters" class="w-full md:w-1/4 p-6 bg-gray-50">
+      <div *ngIf="categoryFilter || tagFilter">
+        <h2 class="text-lg font-semibold">Filter:</h2>
+        <div class="current-filter flex items-center mt-2 text-sm text-gray-700 cursor-pointer" (click)="clearFilters()">
+          {{ categoryFilter?.name || tagFilter?.name }}
+          <span class="ml-2 font-medium text-red-600">Clear Filter</span>
+        </div>
       </div>
-    </div>
-
-    <h3>Categories</h3>
-    <div class="categories">
-      <span *ngFor="let category of categories" 
-            [class.active]="category === categoryFilter" 
-            (click)="setCategoryFilter(category)">
-        {{category.name}}
-      </span>
-    </div>
-    <h3>Tags</h3>
-    <div class="tags">
-      <span *ngFor="let tag of tags" 
-            [class.active]="tag === tagFilter" 
-            (click)="setTagFilter(tag)">
-        {{tag.name}}
-      </span>
-    </div>
-  </div>
-  <div class="projects-grid" >
-    <div class="project" *ngFor="let project of filterProjects(projects)" [ngClass]="{'hidden': shouldHideProject(project)}" >
-      <h2>{{ project.title }}</h2>
-      <p>{{ project.excerpt }}</p>
-      <ul>
-        <li *ngIf="project.category" (click)="setCategoryFilter(project.category)">Category: {{ project.category.name }}</li>
-        <li *ngIf="project.tags && project.tags.length > 0">Tags:
-          <span *ngFor="let tag of project.tags">
-            {{ tag.name }}{{ tag !== project.tags[project.tags.length - 1] ? ', ' : '' }}
-          </span>
-        </li>
-      </ul>
-    </div>
-  </div>
+      <div class="filter-section mt-6">
+        <h3 class="text-lg font-semibold mb-2">Categories</h3>
+        <div id="categories" class="rounded-md shadow-md bg-white p-4">
+          <app-categories
+            [categoryFilter]="categoryFilter"
+            (newCategoryFilterEvent)="setCategoryFilter($event)"
+          ></app-categories>
+        </div>
+        <h3 class="text-lg font-semibold mt-6 mb-2">Tags</h3>
+        <div id="tags" class="rounded-md shadow-md bg-white p-4">
+          <app-tags
+            [tagFilter]="tagFilter"
+            (newTagFilterEvent)="setTagFilter($event)"
+          ></app-tags>
+        </div>
+      </div>
+    </section>
+    <section id="projects" class="w-full md:w-3/4 p-6 flex flex-col items-center">
+      <div class="project-list w-full max-w-3xl">
+        <app-projects
+          [categoryFilter]="categoryFilter"
+          (newCategoryFilterEvent)="setCategoryFilter($event)"
+          [tagFilter]="tagFilter"
+          (newTagFilterEvent)="setTagFilter($event)"
+        ></app-projects>
+      </div>
+    </section>
+  </main>
+  <footer class="bg-gray-900 text-white py-4 px-6 mt-auto text-center">
+    &copy; {{ date.getFullYear() }} {{ author }}
+  </footer>
 </div>
-<footer>
-  <p>&copy; 2023 Mason Porter. All rights reserved.</p>
-</footer>
 
+<style>
+  #filters {
+    position: sticky;
+    top: 0;
+    height: 100vh;
+  }
 
-
-
-
-<!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * -->
-<!-- * * * * * * * * * * * The content above * * * * * * * * * * * -->
-<!-- * * * * * * * * * * is only a placeholder * * * * * * * * * * -->
-<!-- * * * * * * * * * * and can be replaced. * * * * * * * * * * * -->
-<!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * -->
-<!-- * * * * * * * * * * End of Placeholder * * * * * * * * * * * -->
-<!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * -->
-
-
+  @media screen and (max-width: 768px) {
+    #filters {
+      width: 100%;
+    }
+  }
+</style>
